@@ -1,2 +1,2 @@
 # Usama-growth-project
-Growth mindset challenge web app
+Growth mindset AI Project
