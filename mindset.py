@@ -1,55 +1,93 @@
-#streamlit
 import streamlit as st
 
-st.set_page_config(page_title= "Growth mindset project",project_icon="⭐")
-st.title("Growth mindset AI project")
+st.set_page_config(page_title="Growth Mindset Quiz", page_icon="🧠")
 
-st.header("🏈 Welcome to your GROWTH journey!")
-st.write("Embrace challenges,learn from mistakes,and unlock fully potential. This AI- powered app helps you to build a growth mindset with reflection, challenges and achievements! ")
+st.title("🧠 Growth Mindset Quiz")
+st.subheader("Kya aapki soch Growth Mindset wali hai ya Fixed Mindset wali?")
 
-#quote section
-st.header("Today's Growth mindset Quote")
-st.write("❝Success is not final,Failure is not fatal: it is the courage to continue that counts.❞- wins and churchill",)
+st.write("Har sawal ka jawab honestly do. End mein aapko apni mindset ka analysis milega.")
 
-st.header("🏍 whats your challenge today?")
-user_input=st.text_input("Describe a challenge you are facing:")
+# Define questions and answers
+quiz = [
+    {
+        "question": "Agar tum fail ho jao to tum kya sochoge?",
+        "options": {
+            "Yeh subject mere bas ka nahi hai.": 0,
+            "Mujhe samajhne mein thoda waqt lagega.": 1,
+        }
+    },
+    {
+        "question": "Tum kisi mushkil problem ko kaise dekhte ho?",
+        "options": {
+            "Mushkil cheezen stress deti hain.": 0,
+            "Mushkil ka matlab hai seekhne ka moka.": 1,
+        }
+    },
+    {
+        "question": "Jab kisi aur ko success milti hai to?",
+        "options": {
+            "Lagta hai mein kabhi aisa nahi kar sakta.": 0,
+            "Unse inspire hota hoon aur seekhta hoon.": 1,
+        }
+    },
+    {
+        "question": "Agar teacher tumhe feedback de to?",
+        "options": {
+            "Criticism se bura lagta hai.": 0,
+            "Feedback se improvement hoti hai.": 1,
+        }
+    },
+    {
+        "question": "Tum mehnat ke baare mein kya sochti ho?",
+        "options": {
+            "Agar talent ho to mehnat ki zarurat nahi.": 0,
+            "Mehnat se talent develop hota hai.": 1,
+        }
+    },
+]
 
+# Quiz logic
+score = 0
+responses = []
 
-#condition
-if user_input:
-    st.success(f"💪you are facing: {user_input},keep pushing towords your goals🥉")
-else:
-    st.warning("Tell us about your challenge to get started!")
+with st.form("quiz_form"):
+    for i, q in enumerate(quiz):
+        st.write(f"**Q{i+1}. {q['question']}**")
+        response = st.radio("", list(q["options"].keys()), key=i)
+        responses.append(q["options"][response])
+    submitted = st.form_submit_button("Submit Quiz")
 
-    #reflexing
-    st.header("Reflect on your learning")
-    reflection=st.text_area("describe your reflections here")
+# Result
+if submitted:
+    score = sum(responses)
+    st.subheader("📊 Result")
 
-    if reflection:
-        st.success(f"✨Great insight! your reflection:{reflection}")
+    if score >= 4:
+        mindset = "🌱 Growth Mindset"
+        tips = [
+            "Keep embracing challenges.",
+            "Mistakes = opportunities to grow.",
+            "Appreciate effort, not just result!",
+        ]
+    elif score >= 2:
+        mindset = "🌀 Mixed Mindset"
+        tips = [
+            "You're on the way! Reflect on setbacks and reframe your thinking.",
+            "Focus more on learning than proving yourself.",
+        ]
     else:
-        st.info("reflecting on past experience help you grow! share your difficulties")
+        mindset = "🧱 Fixed Mindset"
+        tips = [
+            "Try to see mistakes as learning chances.",
+            "Believe that you can improve with effort.",
+            "Growth comes when you step out of comfort zone.",
+        ]
 
+    st.success(f"Aapka Mindset hai: **{mindset}**")
+    st.write("### Tips to Improve:")
+    for tip in tips:
+        st.markdown(f"- {tip}")
 
-        #achievements
-        st.header("🏆 Celebrate Your Wins!")
-        acheivement= st.text_input("Share something that you have recently accomplished:")
-
-
-        if acheivement:
-            st.success(f"🌷 Amazing! you acheived: {acheivement}")
-        else:
-            st.info("Big or Small acheivement counts! share one now! 😍")
-
-
-            #footer
-            st.write("- - -")
-            st.write("💫 keep believing in yourself.Growth is the journey, not destination!✨")
-            st.write("**⛔ Created by Usama Sharif**")
-
-
-
-
-
-
-               
+    result_text = f"Mera mindset result: {mindset}! Tum bhi ye quiz karo: [Growth Mindset Quiz](your_app_link)"
+    st.write("👇 Copy & share this message:")
+    st.code(result_text)
